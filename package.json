@@ -1,0 +1,40 @@
+{
+  "name": "back_norte",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js",
+    "electron": "electron src/index.js",
+    "package": "electron-builder src/index.js"
+  },
+  "build": {
+    "publish": [
+        {
+            "provider": "github",
+            "owner": "VargasSantiago97",
+            "repo": "electss"
+            
+        }
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "electron": "^29.1.6",
+    "electron-log": "^5.1.2",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.2.4",
+    "nodemon": "^3.1.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^24.13.3",
+    "electron-updater": "^6.1.8"
+  }
+}

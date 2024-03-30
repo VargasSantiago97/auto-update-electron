@@ -1,0 +1,18 @@
+GET http://localhost:3000/login
+
+###
+GET http://localhost:3000/asd
+
+
+
+
+
+
+
+
+###
+GET http://127.0.0.1:3000/users
+Authorization: baarer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJuYW1lIjoiU2FudGlhZ28iLCJleHAiOjE3MTE4MzU2NTQ5MzYsImlhdCI6MTcxMTgzMjA1NH0.H37Gn6vGYw6EeD5zvWj0C6OfA4OS3hlUmwH8fs2tFqs
+
+###
+POST http://localhost:3000/login/
