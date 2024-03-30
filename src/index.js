@@ -7,7 +7,7 @@ const { autoUpdater } = require('electron-updater');
 
 const log = require('electron-log');
 log.transports.file.resolvePathFn = () => path.join('C:/Users/User/Desktop/Projects/INTRANET/back_norte', 'logs/main.log');
-
+log.log('Version actual: ', app.getVersion());
 
 const users = require('./routes/users');
 const login = require('./validations/login');
@@ -81,11 +81,15 @@ autoUpdater.on('update-available', () => {
 autoUpdater.on('checking-for-update', () => {
     log.info('checking-for-update');
 })
-autoUpdater.on('download-progress', () => {
-    log.info('download-progress');
+autoUpdater.on('download-progress', (progressTrack) => {
+    log.info('\n\ndownload-progress');
+    log.info(progressTrack)
 })
 autoUpdater.on('update-downloaded', () => {
     log.info('update-downloaded');
+})
+autoUpdater.on('error', (err) => {
+    log.info('Error en auto-updater. ' + err);
 })
 
 api.listen(PORT, () => {

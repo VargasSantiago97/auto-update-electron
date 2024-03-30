@@ -2,22 +2,29 @@
   "name": "back_norte",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/index.js",
     "electron": "electron src/index.js",
-    "package": "electron-builder src/index.js"
+    "package": "electron-builder -p always"
   },
   "build": {
     "publish": [
         {
             "provider": "github",
             "owner": "VargasSantiago97",
-            "repo": "electss"
-            
+            "repo": "auto-update-electron",
+            "private": false
         }
-    ]
+    ],
+    "win": {
+        "target": "nsis"
+    },
+    "nsis": {
+        "deleteAppDataOnUninstall": true,
+        "oneClick": false
+    }
   },
   "keywords": [],
   "author": "",
