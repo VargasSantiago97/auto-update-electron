@@ -1,6 +1,6 @@
 {
   "name": "back_norte",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "",
   "main": "src/index.js",
   "scripts": {
@@ -11,19 +11,19 @@
   },
   "build": {
     "publish": [
-        {
-            "provider": "github",
-            "owner": "VargasSantiago97",
-            "repo": "auto-update-electron",
-            "private": false
-        }
+      {
+        "provider": "github",
+        "owner": "VargasSantiago97",
+        "repo": "auto-update-electron",
+        "private": false
+      }
     ],
     "win": {
-        "target": "nsis"
+      "target": "nsis"
     },
     "nsis": {
-        "deleteAppDataOnUninstall": true,
-        "oneClick": false
+      "deleteAppDataOnUninstall": true,
+      "oneClick": false
     }
   },
   "keywords": [],
@@ -33,15 +33,15 @@
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "electron": "^29.1.6",
     "electron-log": "^5.1.2",
+    "electron-updater": "^6.1.8",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.4",
     "nodemon": "^3.1.0"
   },
   "devDependencies": {
-    "electron-builder": "^24.13.3",
-    "electron-updater": "^6.1.8"
+    "electron": "^29.1.6",
+    "electron-builder": "^24.13.3"
   }
 }

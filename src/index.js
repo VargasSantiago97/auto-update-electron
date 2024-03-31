@@ -6,7 +6,7 @@ const { app, BrowserWindow } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
 const log = require('electron-log');
-log.transports.file.resolvePathFn = () => path.join('C:/Users/User/Desktop/Projects/INTRANET/back_norte', 'logs/main.log');
+log.transports.file.resolvePathFn = () => path.join(__dirname, 'logs/main.log');
 log.log('Version actual: ', app.getVersion());
 
 const users = require('./routes/users');
@@ -37,12 +37,12 @@ api.use('/users', verifyToken, users);
 
 // Usar las rutas definidas
 api.get('/', (req, res) => {
-    res.send('API');
+    res.send('API V1.1.1');
 })
 
 // Cualquier
 api.get('*', (req, res) => {
-    res.send('API');
+    res.send('API V1.1.1');
 })
 
 // Conexión a la base de datos de usuarios
@@ -57,7 +57,7 @@ const database1 = mongoose.connect(DB1_URI);
 
 function createWindow() {
     win = new BrowserWindow()
-    win.loadFile('../www/index.html');
+    win.loadURL(`http://localhost:${PORT}`)
 }
 
 app.whenReady().then(() => {
