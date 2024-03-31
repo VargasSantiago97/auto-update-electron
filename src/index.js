@@ -2,11 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Tray, screen } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
 const log = require('electron-log');
-log.transports.file.resolvePathFn = () => path.join(__dirname, 'logs/main.log');
+log.transports.file.resolvePathFn = () => path.join('C:/Program Files/back_norte', 'logs/main.log');
 log.log('Version actual: ', app.getVersion());
 
 const users = require('./routes/users');
@@ -23,6 +23,7 @@ const PORT = process.env.PORT || 3000;
 const DB1_URI = 'mongodb://127.0.0.1:27017/database1';
 
 let win;
+let bandeja;
 
 // Middleware para manejar solicitudes JSON
 api.use(cors({
@@ -37,32 +38,68 @@ api.use('/users', verifyToken, users);
 
 // Usar las rutas definidas
 api.get('/', (req, res) => {
-    res.send('API V1.1.1');
+    res.send('API V1.1.2' + __dirname);
 })
 
 // Cualquier
 api.get('*', (req, res) => {
-    res.send('API V1.1.1');
+    res.send('API V1.1.2');
 })
 
 // Conexión a la base de datos de usuarios
 const database1 = mongoose.connect(DB1_URI);
-//database1.on('error', console.error.bind(console, 'Error de conexión a la base de datos 1:'));
-//database1.once('open', () => console.log('Conexión a la base de datos 1 establecida'));
-
-// Conexión a la base de datos de productos
-//const productosDB = mongoose.createConnection(DB2_URI);
-//productosDB.on('error', console.error.bind(console, 'Error de conexión a la base de datos 2:'));
-//productosDB.once('open', () => console.log('Conexión a la base de datos 2 establecida'));
 
 function createWindow() {
-    win = new BrowserWindow()
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
+    win = new BrowserWindow({
+        //alwaysOnTop: true,
+        //movable: false,
+        //kiosk: true,
+        show: false,
+        width: 300,
+        height: 500,
+        x: width - 300,
+        y: height - 500,
+        webPreferences: {
+            nodeIntegration: true
+        },
+        title: 'NORTE SEMILLAS - SYNC',
+        //icon: 3,
+        //titleBarStyle: "hidden"
+    })
+
     win.loadURL(`http://localhost:${PORT}`)
 }
 
 app.whenReady().then(() => {
     createWindow();
     autoUpdater.checkForUpdatesAndNotify();
+
+    bandeja = new Tray(path.join(__dirname, 'icono.ico'));
+
+    bandeja.on('click', () => {
+        if (win) {
+            win.show();
+        } else {
+            console.error("La ventana no está definida aún.");
+        }
+    });
+    bandeja.setToolTip('Abrir Sync');
+
+    win.on('close', (evento) => {
+        if (!app.isQuiting) {
+            evento.preventDefault();
+            win.hide();
+        }
+        return false
+    })
+    win.on('minimize', (evento) => {
+        evento.preventDefault();
+        win.hide();
+
+        return false
+    })
 })
 app.on('window-all-closed', () => {
     if(process.platform !== 'darwin'){
