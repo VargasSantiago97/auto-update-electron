@@ -34,8 +34,8 @@ api.use(cors({
 api.use(express.json());
 api.use(express.static(path.join(__dirname, '../public')));
 
-api.use('/login', login);
-api.use('/users', verifyToken, users);
+//api.use('/login', login);
+//api.use('/users', verifyToken, users);
 api.use('/intranet', intranet);
 
 // Usar las rutas definidas
