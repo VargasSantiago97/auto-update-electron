@@ -2,12 +2,16 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
+const fs = require('fs');
 const { app, BrowserWindow, Tray, screen } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
 const log = require('electron-log');
-log.transports.file.resolvePathFn = () => path.join('C:/Program Files/back_norte', 'logs/main.log');
+
+verificarYCrearCarpeta(path.join(__dirname, `../../logs`));
+log.transports.file.resolvePathFn = () => path.join(__dirname, `../../logs/logs ${fechaHoy()}.txt`);
 log.log('Version actual: ', app.getVersion());
+
 
 const users = require('./routes/users');
 const intranet = require('./routes/intranet');
@@ -32,21 +36,22 @@ api.use(cors({
     optionsSuccessStatus: 200
 }))
 api.use(express.json());
-api.use(express.static(path.join(__dirname, '../public')));
 
-//api.use('/login', login);
-//api.use('/users', verifyToken, users);
-api.use('/intranet', intranet);
 
 // Usar las rutas definidas
 api.get('/', (req, res) => {
     res.send('API V1.1.2' + __dirname);
 })
 
+api.use(express.static(path.join(__dirname, '../public')));
+api.use('/login', login);
+api.use('/users', verifyToken, users);
+api.use('/intranet', intranet);
+
 // Cualquier
-/* api.get('*', (req, res) => {
+api.get('*', (req, res) => {
     res.send('API V1.1.2');
-}) */
+})
 
 // Conexión a la base de datos de usuarios
 const database1 = mongoose.connect(DB1_URI);
@@ -58,7 +63,7 @@ function createWindow() {
         //alwaysOnTop: true,
         //movable: false,
         //kiosk: true,
-        show: false,
+        show: true,
         width: 300,
         height: 500,
         x: width - 300,
@@ -72,6 +77,30 @@ function createWindow() {
     })
 
     win.loadURL(`http://localhost:${PORT}`)
+}
+function fechaHoy() {
+    const fecha = new Date();
+    
+    const anio = fecha.getFullYear();
+    let mes = fecha.getMonth() + 1;
+    mes = mes < 10 ? '0' + mes : mes;
+    let dia = fecha.getDate();
+    dia = dia < 10 ? '0' + dia : dia;
+    
+    return `${anio}-${mes}-${dia}`;
+}
+function verificarYCrearCarpeta(rutaCarpeta) {
+    // Verificar si la carpeta existe
+    fs.access(rutaCarpeta, fs.constants.F_OK, (err) => {
+        if (err) {
+            // La carpeta no existe, crearla
+            fs.mkdir(rutaCarpeta, { recursive: true }, (err) => {
+                if (err) {
+                    console.error('Error al crear la carpeta:', err);
+                }
+            });
+        }
+    });
 }
 
 app.whenReady().then(() => {
@@ -100,6 +129,11 @@ app.whenReady().then(() => {
         evento.preventDefault();
         win.hide();
 
+        return false
+    })
+    win.on('maximize', (evento) => {
+        evento.preventDefault();
+        app.exit();
         return false
     })
 })
