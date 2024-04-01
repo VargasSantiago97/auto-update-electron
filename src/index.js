@@ -10,6 +10,7 @@ log.transports.file.resolvePathFn = () => path.join('C:/Program Files/back_norte
 log.log('Version actual: ', app.getVersion());
 
 const users = require('./routes/users');
+const intranet = require('./routes/intranet');
 const login = require('./validations/login');
 
 const verifyToken = require('./validations/validation');
@@ -31,10 +32,11 @@ api.use(cors({
     optionsSuccessStatus: 200
 }))
 api.use(express.json());
-
+api.use(express.static(path.join(__dirname, '../public')));
 
 api.use('/login', login);
 api.use('/users', verifyToken, users);
+api.use('/intranet', intranet);
 
 // Usar las rutas definidas
 api.get('/', (req, res) => {
@@ -42,9 +44,9 @@ api.get('/', (req, res) => {
 })
 
 // Cualquier
-api.get('*', (req, res) => {
+/* api.get('*', (req, res) => {
     res.send('API V1.1.2');
-})
+}) */
 
 // Conexión a la base de datos de usuarios
 const database1 = mongoose.connect(DB1_URI);
