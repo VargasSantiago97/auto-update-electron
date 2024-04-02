@@ -5,4 +5,4 @@ const UsersSchema = new mongoose.Schema({
     permisos: Array
 });
   
-module.exports = mongoose.model('Users', UsersSchema, 'users');
+module.exports = mongoose.model('users', UsersSchema, 'users');

@@ -25,8 +25,8 @@ require('dotenv').config();
 const api = express();
 const PORT = process.env.PORT || 3000;
 
-const DB_URI = 'mongodb://admin:1!NorteSemillas@127.0.0.1:27017/basee';
-//const DB_URI = 'mongodb://admin:1!NorteSemillas@127.0.0.1:27017/nortesemillas';
+const DB_URI = 'mongodb://localhost:27017/nortesemillas';
+createConnectionMongoDB()
 
 let win;
 let bandeja;
@@ -58,16 +58,20 @@ api.use('/login', login);
 api.use('/users', verifyToken, users);
 api.use('/intranet', intranet);
 
+
 // Cualquier
 api.get('*', (req, res) => {
-    //res.send('API V1.1.2');
     res.sendFile(path.join(__dirname, '../public', 'index.html'));
 })
 
-// Conexión a la base de datos de usuarios
-mongoose.connect(DB_URI)
-.then(() => console.log('Conexión exitosa a la base de datos'))
-.catch(error => console.error('\n\nError de conexión:', error));
+// Conexión a la base de datos
+async function createConnectionMongoDB(){
+    await mongoose.connect(DB_URI, {
+        authSource: "admin",
+        user: "usuario",
+        pass: "NoSeUs1!"
+    });
+}
 
 function createWindow() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;

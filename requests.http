@@ -5,7 +5,7 @@ GET http://localhost:3000/asd
 
 ### USERS
 GET http://localhost:3000/users/1
-Authorization: baarer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJuYW1lIjoiU2FudGlhZ28iLCJleHAiOjE3MTIwMTYyNzQwNTQsImlhdCI6MTcxMjAxMjY3NH0.exVNzR5BT1qvPNEwODMxolBJ4fGSAhM7JegkTlmz5tg
+Authorization: baarer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExLCJuYW1lIjoiU2FudGlhZ28iLCJleHAiOjE3MTIwMzMzOTE2ODYsImlhdCI6MTcxMjAyOTc5MX0.gGPHhX2alIOSUq-wAR0qd1PQ3nZHaYWXFHBbm6V9m2M
 
 
 
