@@ -25,7 +25,8 @@ require('dotenv').config();
 const api = express();
 const PORT = process.env.PORT || 3000;
 
-const DB1_URI = 'mongodb://127.0.0.1:27017/database1';
+const DB_URI = 'mongodb://admin:1!NorteSemillas@127.0.0.1:27017/basee';
+//const DB_URI = 'mongodb://admin:1!NorteSemillas@127.0.0.1:27017/nortesemillas';
 
 let win;
 let bandeja;
@@ -43,6 +44,15 @@ api.get('/', (req, res) => {
     res.send('API V1.1.2' + __dirname);
 })
 
+api.get('/version', (req, res) => {
+    res.json({
+        estado: 'OK',
+        version: app.getVersion(),
+        ruta: __dirname,
+        logs: path.join(__dirname, `../../logs`)
+    });
+})
+
 api.use(express.static(path.join(__dirname, '../public')));
 api.use('/login', login);
 api.use('/users', verifyToken, users);
@@ -50,11 +60,14 @@ api.use('/intranet', intranet);
 
 // Cualquier
 api.get('*', (req, res) => {
-    res.send('API V1.1.2');
+    //res.send('API V1.1.2');
+    res.sendFile(path.join(__dirname, '../public', 'index.html'));
 })
 
 // Conexión a la base de datos de usuarios
-const database1 = mongoose.connect(DB1_URI);
+mongoose.connect(DB_URI)
+.then(() => console.log('Conexión exitosa a la base de datos'))
+.catch(error => console.error('\n\nError de conexión:', error));
 
 function createWindow() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -76,7 +89,7 @@ function createWindow() {
         //titleBarStyle: "hidden"
     })
 
-    win.loadURL(`http://localhost:${PORT}`)
+    win.loadURL(`http://localhost:${PORT}/`)
 }
 function fechaHoy() {
     const fecha = new Date();

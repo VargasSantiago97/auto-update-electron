@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
-const PruebaSchema = new mongoose.Schema({
-    dato: String
+const UsersSchema = new mongoose.Schema({
+    alias: String,
+    permisos: Array
 });
   
-module.exports = mongoose.model('Pruebas', PruebaSchema);
+module.exports = mongoose.model('Users', UsersSchema, 'users');
