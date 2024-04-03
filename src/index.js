@@ -12,13 +12,11 @@ verificarYCrearCarpeta(path.join(__dirname, `../../logs`));
 log.transports.file.resolvePathFn = () => path.join(__dirname, `../../logs/logs ${fechaHoy()}.txt`);
 log.log('Version actual: ', app.getVersion());
 
-
 const users = require('./routes/users');
 const intranet = require('./routes/intranet');
 const login = require('./validations/login');
 
 const verifyToken = require('./validations/validation');
-
 
 require('dotenv').config();
 
@@ -59,6 +57,10 @@ api.use('/users', verifyToken, users);
 api.use('/intranet', intranet);
 
 
+api.get('/pag2/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/pag2', 'index.html'));
+})
+
 // Cualquier
 api.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../public', 'index.html'));
@@ -66,6 +68,7 @@ api.get('*', (req, res) => {
 
 // Conexión a la base de datos
 async function createConnectionMongoDB(){
+    log.log('')
     await mongoose.connect(DB_URI, {
         authSource: "admin",
         user: "usuario",
