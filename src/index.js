@@ -14,6 +14,7 @@ log.log('Version actual: ', app.getVersion());
 
 const users = require('./routes/users');
 const intranet = require('./routes/intranet');
+const sync = require('./routes/sync');
 const login = require('./validations/login');
 
 const verifyToken = require('./validations/validation');
@@ -55,6 +56,7 @@ api.use(express.static(path.join(__dirname, '../public')));
 api.use('/login', login);
 api.use('/users', verifyToken, users);
 api.use('/intranet', intranet);
+api.use('/sync', sync);
 
 
 api.get('/pag2/*', (req, res) => {
@@ -96,7 +98,7 @@ function createWindow() {
         //titleBarStyle: "hidden"
     })
 
-    win.loadURL(`http://localhost:${PORT}/`)
+    win.loadURL(`http://localhost:${PORT}/sync`)
 }
 function fechaHoy() {
     const fecha = new Date();
