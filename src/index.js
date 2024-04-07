@@ -86,19 +86,20 @@ function createWindow() {
         //movable: false,
         //kiosk: true,
         show: true,
-        width: 300,
-        height: 500,
-        x: width - 300,
-        y: height - 500,
+        width: 310,
+        height: 450,
+        x: width - 310,
+        y: height - 450,
         webPreferences: {
             nodeIntegration: true
         },
-        title: 'NORTE SEMILLAS - SYNC',
+        title: 'SINCRONIZADOR',
         //icon: 3,
         //titleBarStyle: "hidden"
     })
 
-    win.loadURL(`http://localhost:${PORT}/sync`)
+    win.menuBarVisible = false
+    win.loadURL(`http://localhost:${PORT}/sync/display`)
 }
 function fechaHoy() {
     const fecha = new Date();
